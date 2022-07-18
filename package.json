@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/gateway": "^2.0.5",
+    "@graphql-tools/schema": "^8.5.0",
+    "@graphql-tools/stitch": "^8.7.0",
     "@graphql-tools/wrap": "^8.5.0",
     "apollo-server": "^3.10.0",
     "cross-undici-fetch": "^0.4.13",
