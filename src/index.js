@@ -25,17 +25,29 @@ const run = async () => {
     //https://www.graphql-tools.com/docs/schema-stitching/stitch-schema-extensions
     typeDefs: /* GraphQL */ `
       extend type SelfServiceCustomerType {
-        notes: [Note]
+        notes: [Note],
+        movies: [Movie]
       }
     `,
     resolvers: {
       SelfServiceCustomerType: {
         notes: {
-          resolve(parent, args, context, info) {
+          resolve(_, args, context, info) {
             return delegateToSchema({
               schema: federationGatewaySchema,
               operation: "query",
               fieldName: "notes",
+              context,
+              info,
+            });
+          },
+        },
+        movies: {
+          resolve(_, args, context, info) {
+            return delegateToSchema({
+              schema: federationGatewaySchema,
+              operation: "query",
+              fieldName: "movies",
               context,
               info,
             });
@@ -50,8 +62,8 @@ const run = async () => {
     // gateway,
     schema: mergedSchema,
     // executor: gateway.executor,
-    // Subscriptions are not currently supported in Apollo Federation
-    subscriptions: false,
+    // subscriptions can be used with schema stitching
+    subscriptions: true,
   });
 
   server.listen().then(({ url }) => {

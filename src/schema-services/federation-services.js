@@ -20,6 +20,7 @@ async function makeGatewaySchema() {
         subschemaConfigTransforms: [stitchingConfig.stitchingDirectivesTransformer],
         subschemas: await Promise.all([
             fetchFederationSubchema(makeRemoteExecutor('http://localhost:5154/graphql')),
+            fetchFederationSubchema(makeRemoteExecutor('http://localhost:5160/graphql')),
         ])
     });
 }
