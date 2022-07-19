@@ -10,13 +10,12 @@
   "author": "Andrew Vu",
   "license": "ISC",
   "dependencies": {
-    "@apollo/gateway": "^2.0.5",
-    "@graphql-tools/delegate": "^8.8.0",
-    "@graphql-tools/schema": "^8.5.0",
-    "@graphql-tools/stitch": "^8.7.0",
-    "@graphql-tools/wrap": "^8.5.0",
-    "apollo-server": "^3.10.0",
-    "cross-undici-fetch": "^0.4.13",
-    "graphql": "^16.5.0"
+    "@apollo/gateway": "0.19.1",
+    "@graphql-tools/wrap": "6.0.18",
+    "apollo-server": "2.16.1",
+    "cross-fetch": "3.0.5",
+    "graphql": "15.3.0",
+    "graphql-transform-federation": "2.1.0",
+    "prettier": "2.0.5"
   }
 }
