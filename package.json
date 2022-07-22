@@ -15,11 +15,15 @@
     "@graphql-tools/schema": "^8.5.0",
     "@graphql-tools/stitch": "^8.7.0",
     "@graphql-tools/stitching-directives": "^2.3.0",
+    "@graphql-tools/utils": "^8.8.0",
     "@graphql-tools/wrap": "^8.5.0",
     "apollo-server": "^3.10.0",
     "cross-undici-fetch": "^0.4.13",
     "federation-to-stitching-sdl": "^1.0.1",
     "graphql": "^16.5.0",
-    "prettier": "^2.7.1"
+    "graphql-ws": "^5.9.1",
+    "graphql-yoga": "^2.13.4",
+    "prettier": "^2.7.1",
+    "ws": "^8.8.1"
   }
 }

@@ -2,6 +2,7 @@ const { ApolloServer } = require("apollo-server");
 const { stitchSchemas } = require("@graphql-tools/stitch");
 const { delegateToSchema } = require("@graphql-tools/delegate");
 const { generateBcApiSchema, generateFederationSchema } = require("./schema-services");
+const {createServer} = require("graphql-yoga");
 
 
 const run = async () => {
@@ -23,50 +24,48 @@ const run = async () => {
       },
     ],
     //https://www.graphql-tools.com/docs/schema-stitching/stitch-schema-extensions
-    typeDefs: /* GraphQL */ `
-      extend type SelfServiceCustomerType {
-        notes: [Note],
-        movies: [Movie]
-      }
-    `,
-    resolvers: {
-      SelfServiceCustomerType: {
-        notes: {
-          resolve(_, args, context, info) {
-            return delegateToSchema({
-              schema: federationGatewaySchema,
-              operation: "query",
-              fieldName: "notes",
-              context,
-              info,
-            });
-          },
-        },
-        movies: {
-          resolve(_, args, context, info) {
-            return delegateToSchema({
-              schema: federationGatewaySchema,
-              operation: "query",
-              fieldName: "movies",
-              context,
-              info,
-            });
-          },
-        },
-      },
-    },
+    // typeDefs: /* GraphQL */ `
+    //   extend type SelfServiceCustomerType {
+    //     notes: [Note],
+    //     movies: [Movie]
+    //   }
+    // `,
+    // resolvers: {
+    //   SelfServiceCustomerType: {
+    //     notes: {
+    //       resolve(_, args, context, info) {
+    //         return delegateToSchema({
+    //           schema: federationGatewaySchema,
+    //           operation: "query",
+    //           fieldName: "notes",
+    //           context,
+    //           info,
+    //         });
+    //       },
+    //     },
+    //     movies: {
+    //       resolve(_, args, context, info) {
+    //         return delegateToSchema({
+    //           schema: federationGatewaySchema,
+    //           operation: "query",
+    //           fieldName: "movies",
+    //           context,
+    //           info,
+    //         });
+    //       },
+    //     },
+    //   },
+    // },
   });
 
-  // 4. create ApolloServer
-  const server = new ApolloServer({
-    // gateway,
-    schema: mergedSchema,
-    // executor: gateway.executor,
-    // subscriptions can be used with schema stitching
-    subscriptions: true,
-  });
+  // 4. create graphql server
 
-  server.listen().then(({ url }) => {
+  const server = createServer({
+    schema: mergedSchema
+  })
+
+
+  server.start().then(({ url }) => {
     console.log(`🚀 Gateway ready at ... ${url}`);
   });
 };

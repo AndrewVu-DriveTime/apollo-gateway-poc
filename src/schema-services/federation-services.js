@@ -5,7 +5,11 @@ const {
 } = require("@graphql-tools/stitching-directives");
 
 const { buildSchema } = require("graphql");
-const { makeRemoteExecutor } = require("../lib");
+const {
+  makeRemoteExecutor,
+  makeWSRemoteExecutor,
+  makeHybridExecutor,
+} = require("../lib");
 const stitchingConfig = stitchingDirectives();
 
 // https://www.graphql-tools.com/docs/schema-stitching/stitch-federation
@@ -23,10 +27,16 @@ async function makeGatewaySchema() {
     subschemaConfigTransforms: [stitchingConfig.stitchingDirectivesTransformer],
     subschemas: await Promise.all([
       fetchFederationSubchema(
-          makeRemoteExecutor("https://flyby-locations-sub.herokuapp.com/")
+        makeRemoteExecutor("https://flyby-locations-sub.herokuapp.com/")
       ),
       fetchFederationSubchema(
         makeRemoteExecutor("https://flyby-reviews-sub.herokuapp.com/")
+      ),
+      fetchFederationSubchema(
+        makeHybridExecutor(
+          "http://localhost:5160/graphql",
+          "ws://localhost:5160/graphql"
+        )
       ),
     ]),
   });
